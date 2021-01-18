@@ -1,0 +1,43 @@
+//&：取地址运算符，单目运算符，后面通常紧跟一个变量，该运算符用于读取该变量的保存地址//&：取地址运算符，单目运算符，后面通常紧跟一个变量，该运算符用于读取该变量的保存地址
+//*：取变量运算符，单目运算符，后面通常紧跟一个指针变量，该运算符用于读取该指针变量所指的变量
+
+//定义一个int型变量
+int a = 200;
+//定义一个指向int变量的指针
+int*p;
+//将a变量的指针（内存地址）赋值给p指针变量
+p=&a；
+//*p表示取出p指针所指变量
+NSLog（@"%d",*p);
+//对a变量先取指针，再获取该指针所指变量，又回到变量a
+//下面代码将输出1
+NSLog(@"%d",a==(*(&a));//(*(&a))与变量a是等价的
+
+import<Foundation/Foundation.h>
+void swap(int*p1,int*p2)
+{
+	int tmp = *p1 	//将p1所指变量的值赋给tmp
+	*p1 = *p2;	//将p2的值赋给p1所指的变量
+	*p2 = tmp;	//将tmp变量的值赋给p2所指的变量
+	p1 = p2 = nil;	//将两个指针赋值为nil，也就是不指向如何地址
+}
+int main(int argc,char*argv[])
+{
+	@autoreleasepool
+	{
+		int a = 5;
+		int b = 9;
+		int*pa = &a;
+		int*pb = &b;
+		swap(&a,&b);
+		NSLog(@"a的值为%d,b的值为%d",a,b);
+		NSLog(@"pa的值为%p,pb的值为%p",pa,pb);
+		int b = 9;
+		int*pa = &a;
+		int*pb = &b;
+		swap(&a,&b);
+		NSLog(@"a的值为%d,b的值为%d",a,b);
+		NSLog(@"pa的值为%p,pb的值为%p",pa,pb);
+	}
+	}
+}
