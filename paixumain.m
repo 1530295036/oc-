@@ -1,5 +1,5 @@
-//*(arr+1)+2 == a[1]+2 == &arr[1][2]; *arr + 1 + 2 == *arr + 3 ==&a[0][3]
-//  main.m
+//*(arr+1)+2 == a[1]+2 == &arr[1][2]; *arr + 1 + 2 == *arr + 3 ==&a[0][3]; arr[i][j] == (*(arr + i)) + [j] == *(*arr[i]+j) == *(arr[i]+j) == *(*(arr+i)+j)
+//  main.
 //  text
 //
 //  Created by qkl on 2021/1/17.
