@@ -1,0 +1,33 @@
+//[[类名 alloc]初始化方法]；
+alloc是一个关键字，负责为该类分配内存空间、创建对象。
+除此之外，还需要初始化方法对该实例执行初始化，由于所有的对象都继承了NSObject，因此所有的类都有一个默认的初始化方法int
+为了照顾java用户的习惯，oc也支持用new来创建对象，语法如下：
+[类名 new]；
+该写法基本等同于[[类名alloc]init]；
+oc调用方法的语法格式
+[调用者 方法名: 参数 形参标签：参数值];
+实例方法以“-”来声名，必须用实例调用
+类方法以“+”来声名，必须使用类调用
+#import<Foundation/Fountation.h>
+#import"Person.h"
+int main(int argc,char*argv[])
+{
+@autoreleasepool
+  {
+  //定义Person*的变量
+  Person* person;
+  //创建Person对象，赋给person
+  person = [[Person alloc]init]；
+  //调用有参数的方法，必须传入参数
+  [person say:@"hello I lvov IOS"];
+  [person say:@"张三"andAge:20];
+  //调用无参数的方法，不需要传入参数
+  //方法有返回值，可以定义一个类型匹配的变量来接受返回值额
+  NsString*info = [person info];
+  NSLog(@"person的info信息为：%@",info);
+  //通过类名来调用类方法
+  [Person foo];
+  //将person变量的值赋给p2变量
+  person*p2 = person;
+  }
+}
