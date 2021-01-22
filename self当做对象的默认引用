@@ -1,0 +1,24 @@
+#import<Foundation/Foundation.h>
+@interface ReturnSelf:NSObject
+{
+@public
+int_age;
+}
+-(ReturnSlef*)grow;
+@end
+@implementation ReturnSelf
+-(ReturnSelf*)grow
+{
+_age++;
+//return self,返回调用该方法的对象
+return self;
+}
+@end
+int main(int argc,char*argv[])
+{
+@autoreleaspool{
+  ReturnSelf*rt = [[ReturnSelf alloc]init];
+  [[[rt grow]grow]grow];
+  NSLog(@"rt的_age成员变量的值是：%d",rt->_age);//是一个结构体，用于指向结构体、class等含有子数据的指针来取子数据
+  }
+ }
