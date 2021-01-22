@@ -1,0 +1,98 @@
+//id类型是一个独特的数据类型，概念上类似Java或者C#的Object类，可以转化为如何数据类型
+//也就是  id类型变量可以存放任何数据类型的对象
+//在内部处理上，这种类型被定义为指向对象的指针，实际上是一个指向这种对象的实例变量的指针
+//id是一个指针，所以不需要加星号，如：
+//id foo = nil；
+//该语句定义了一个nil指针，这个指针指向NSObject的任意一个子类。
+//id *foo = nil；
+//该语句则定义了一个指针，这个指针指向另一个指针，被指向的指针指向NSObject的一个子类。
+
+//当通过id类型的变量调用方法是，oc会执行动态绑定
+//动态绑定是指oc会跟踪对象所属的类，它会在运行时判断该对象所属的类，并在运行时确定动态调用的方法，而不是编译时确定要调用的方法
+//在main函数中定义一个id类型的变量，并使用前面定义的Person类创建实例，然后将Person实例赋值给该id类型的变量
+#import<Foundation/Foundation.h>
+#import"Person.h"
+int main(int argc,char*argv[])
+{
+  @autoreleasepool{
+  //定义id类型的变量，，并将Person对象赋值给该变量
+  id p = [[Person alloc]init];
+  //使用p变量来调用say：方法
+  //程序将运行时执行动态绑定，因此实际执行Person对象的say：方法
+  //程序将在运行时执行动态绑定，因此实际执行Person对象的say：方法
+  [p say:@"Hi,IOS"];
+  }
+ }
+ //上面的程序中定义了一个id类型的变量，并将一个Person对象赋给该id类型的变量，然后就可以通过该id类型的
+ //变量调用say：方法，程序将会运行时动态检测该变量所指的对象的实际类型为Person。
+ //因此，将会动态绑定到执行Person对象的say：方法，编译、运行该程序
+ 
+ 
+//定义两个不同的类，一个是学生类Student，一个是会员类Member，这两个类拥有不同的成员变量和方法
+
+//student.h//
+#import<Foundation/Foundation.h>
+@interface Student:NSOject{
+  int sid;
+  NSString *name;
+ }
+ @property int sid;
+ @property(nonatomic,retain)NSString*name;//nonatomic是什么，和atomic的区别看另一章
+ -(void)print;
+ -(void)setSid:(int)sid andName:(NSString*)name;
+ @end
+ 
+ //Student.m
+ #import"Student.h"
+ @implementation Student
+ @synthesize sid,name;
+ -(void)print{
+    NSLog(@"我的学号是:%i,我的名字是：%@",sid,name);
+    }
+  -(void)setSid:(int)sid1 andName:(NSString*)name1{
+      self.sid = sid1;
+      self.name = name1;
+    }
+ @end
+ 
+ //Member.h
+ 
+ import<Fountation/Foundation.h>
+ @interface Member:NSObject
+ {
+  NSString*name;
+  int age;
+ }
+ @property(nonatomic,retain)NSString *name;
+ @property int age;
+ -(void)print;
+ -(void)setName:(NSString*)name1 andAge:(int)age1;
+ @end
+ 
+ //Member.m
+ #import"Member.h"
+ @implementation Menber
+ @synthesize name,age;
+ -(void)print
+ {
+    NSLog(@"我的名字是：%@,我的年龄是%i",name,age);
+  }
+ -(void)setName:(NNString*)name1 andAge:(int)age1
+  {
+    self.name=name1;
+    self.age=age1;
+    }
+@end
+
+//main.m
+id fo;
+NSLog(@"%lu,sizeof(fo));
+Member*member1=[[Member alloc]init];
+[member1 setName:@"LiDao" andAge:24];
+id data;
+data = member1;//由于id类型的通用性质，可以将创建好的对象复制data
+[data print];
+Student *student1 = [[Student alloc]init];
+[student] setSid:399110 andName:@"yifei"];
+data = student1;
+[data print];
