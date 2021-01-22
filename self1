@@ -1,0 +1,44 @@
+当局部变量和成员变量重名的情况下，局部变量会隐藏成员变量。
+为了在方法中强行引用成员变量，也可以使用self关键字进行区分
+///wolf类接口部分（Wolf.h）
+#import<Foundation/Foundation.h>
+@interface Wolf:NSObject
+{
+  NSString*_name;
+  int_age;
+ }
+ //定义一个steName：ageAge方法
+ -(void)setName:(NSString*)_name andAge:(int)_age;
+ //定义一个info方法
+ -(void)info;
+ @end
+ //上面类接口部分定义了一个setName：andAge：方法，接下来将会在类实现部分为该方法提供实现
+ 在实现部分(Wolf.m),故意让形参与成员变量重名，然后通过self强行指定访问成员变量。
+ 
+ #import"Wolf.h"
+ @implenmentation Wolf//自定义初始方法
+ //定义一个setName：ageAge方法
+ -(void)setName:(NSString*)_name andAge:(int)_age
+ {
+ //当局部变量隐藏成员变量时
+ //可用self代表调用该方法的对象，这样即为调用该方法的成员变量赋值
+ self->_name = _name;
+ self->_age = _age;
+ }
+ //定义一个info方法
+ -(void)info
+ {
+  NSLog(@"我的名字是%@，年龄是%d岁"，_name,_age);
+  }
+  @end
+  int main(int argc,char*argv[])
+  {
+  @autoreleasepool{
+    Wolf*w = [[Wolf alloc]init];
+    [w setName:@"张三"andAge:20];
+    [w info];
+   }
+  }
+//在setName：andAge：方法中，由于_name、_age形参隐藏了其成员变量，因此编译器会提示警告
+但由于程序使用了self->_name、self->_age来指定为调用该方法的Wolf对象的_name、_age成员变量赋值，
+这样就可以把调用该方法的参数赋值给_name、_age两个成员变量。
