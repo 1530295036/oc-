@@ -1,0 +1,12 @@
+//在代码中，类名用在两种完全不同的语境中。在这两种语境中，类名分别定义为数据类型和类对象
+//类名可以用于指定一个对象的类型。
+//Rectangle*anObject;
+//anObject被静态地指定为Rectangle类型。这样编译器就可以提前知道它拥有Rectangle实例所具有的数据结构
+//同时它还拥有Rectangle类所定义和继承的实例方法。只有实例对象可以静态地指定类型，类对象不能这样处理，因为类对象不是一个类的成员，而是属于Class数据类型
+//作为一个消息表达式中的接收者，类名代表一个类对象。这种用法在之前的很多例子中都提到过
+//类名只有作为消息接收者才能代表一个类对象。
+//在其他情况下，如果想得到一个类对象，必须调用类对象的方法来获得它的id（发送一个class消息）
+//下面的示例把Rectangle类对象作为一个变量传递给isKindOfClass：消息：
+if([anObject inKindOfClass:[Rectangle class]])
+//直接使用Rectangle作为变量是不合法的，类目只能做接收者。如果在编译时不知道类名而在运行时能够得到类名的字符串，可以使用NSClassFromString（）返回一个类对象
+if([anObject inkindOfClass:[Rectangle class]])
