@@ -1,0 +1,30 @@
+属性提供了比方法更方便的访问方式：通过property标识符来替代getter和setter方法。
+使用方法就是在类接口文件中用@property标识符，后来跟着变量的属性，包括copy、retain、assign、readonly、readwrite、nonatomic，然后是变量名。
+同时在实现文件中用@synthesize标识符来取代getter和setter方法
+尽管使用访存方法可以带来很多好处，但是编写访存方法却是一件乏味的工作。
+此外，这样做也掩盖了属性中一些对API的使用者来说很重要的方面，例如，访存方法线程是否安全，或者在赋新值时是否会复制
+属性声明通过以下方法来解决上述问题：
+属性的声明提供了一个关于访存方法行为的清晰的、明确的说明
+编译器可以根据在声明中提供的有关说明来生成访存方法
+由于属性是使用标识符表示的且有一定的作用域，所以编译器可以侦测到未声明属性的使用
+
+属性的声明
+关键字@property开头，可以出现在一个类的@interface代码部分的方法声明列表中的任何位置，同时还可以出现在协议或分类的声明中
+property（attribute）type name；
+@property 指令来声明一个属性，一对括号包着的可选择性（attributes）提供了关于存储语义和其他一些行为的细节。
+每个属性都有一个类型说明（type）和一个属性名（name）。
+@interface MyClass： NSObject（NSObject前需要空格）
+@property float value；
+@end
+可以认为属性声明等同于声明2个访存方法，如：
+@property float value；
+等同于
+-（float）value；
+-（void）setValue：（float）newValue；
+但是，一个属性的声明还提供了关于如何实现访存方法的额外信息。当然也可以把属性声明发到类扩展中，如：
+@interface MyClass： NSObject
+@end
+@interface MyClass（）
+@property float value；
+@end
+当想要隐藏私有属性的声明时，这样做就很有用了
