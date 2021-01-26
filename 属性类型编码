@@ -1,0 +1,6 @@
+property_getAttribute()函数将返回属性的名字，#encode编码，以及其他特征（Attribute）。
+property_getAttribute()返回的字符串以字母T开始，接着是@encode编码和逗号。
+如果属性由readonly修饰，则字符串中含有R和逗号。
+如果属性由copy或retain修饰，则字符串分别含有C或者&，然后是逗号。
+如果属性定义中有定制的getter和setter方法，则字符串中有G或S跟着相应的方法名以及逗号，例如，GcustomGetter： 和ScustomSetter： 。
+如果属性是只读的，且有定制的getter访问方法，则描述到此为止。
