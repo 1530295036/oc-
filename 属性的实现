@@ -1,0 +1,27 @@
+可以在@implementation中使用@synthesize和@dynamic指令来触发特定的编译器动作。注意这两个指令对于@property声明都不是必需的。
+如果没有为一个属性标明@synthesize或@dynamic，那么必须要为这个属性实现getter和setter方法（如果时readonly，只需要实现getter方法），否则编译器会报一个警告。
+@synthesize可以使用@synthesize指令来通知编译器，当没有在@implementation中实现setter和getter方法时，由编译器来生成这两个方法。
+同时，声明了实例变量@synthesize指令也会生成一个适当的实例变量。
+@interface MyClass： NOSbject
+@property（copy， readwrite）NSString *value；
+@end
+@implementation MyClass；
+@synthesize value；
+@end
+可以使用property = ivar 格式来说明属性会用到一个实例变量，例如
+@synthesize firstName ， lastName  age=yearsOld；
+上面这段代码说明需要分别为firstName、lastName和age生成访存方法，并且用属性age来代表实例变量yearsOld。生成的方法还会受其他一些可选属性的控制。
+不管是否指定实例变量的名字，@synthesize指令能使用的仅是当前类中的实例变量，而不能是超类中的。
+在不同的运行示例中，关于访存方法生成会有所不同：
+在以前的运行示例中，实例变量必须是已经在当前类的@interface中声明的。如果存在一个和属性同名的实例变量，并且其类型也同属性的类型相匹配，那么就使用这个实例变量，否则编译器会报错
+在现在的运行示例中，实例变量会根据需要生成。如果一个同名的实例变量已经存在，那么就使用这个实例变量。
+可以使用@dynamic关键字通知编译器履行属性的API协议，直接实现一个方法或在运行时使用其他机制（例如动态加载代码或动态方法）来实现方法。
+这样会屏蔽掉编译器关于未找到方法实现的警告。应该只有在确定方法会在运行时有效的情况下才能使用这个关键字。下面演示了一个NSMangeObject的子类中使用@dynamic
+@interface MyClass NSMangeObject
+@property（nonatomic ， retain）NSString *value；
+@end
+@implementation MyClass
+@dynamic value；
+@end
+NSMangeObject是由核心数据框架提供的。一个托管对象类会有一个相应模式来定义类的特性和关系；在运行时，核心数据结构会生成这些必需的访存方法。因此，通常为特性和关系声明一个属性不需要用户自己实现访存方法，
+也不应该要求编译器去做这些，然而如果声明了一个属性且没有实现访存方法，编译器会生成一个警告。使用@dynamic就可以屏蔽掉这个警告。
