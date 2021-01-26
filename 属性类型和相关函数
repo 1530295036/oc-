@@ -1,0 +1,31 @@
+属性类型定义了对描述属性的结果体objc_property的不透明的句柄：
+typedef struct objc_property*Property;
+可以使用函数class_copyPropertyList和protocol_copyPropertyList来获得类（包括范畴类）或协议类中的属性列表：
+objc_property_t *class_copyPropertyList(Class cls,unsigned int *outCount)
+objc_property_t *protocol_copyPropertyList(Protocol *proto,unsigned int *outCount)
+例如,有如下的类声明
+@interface Lender:NSObject\
+{
+   float alone;
+}
+@property float alone;
+@end
+可以像下面这样获得其属性：
+id LenderClass = objc_getClass("Lender");
+unsigned int outCount;
+objc_property_t *properties = class_copyPropertyList(LenderClass, & outCount);
+还可以通过property_getName()函数来获取属性的名字：
+const char *property_getName(bojc_property_t property)
+函数class_getProperty()和property_getProperty()则在类或协议类中返回具有给定名字的属性的引用：
+objc_property_t class_getClass(Class cls,const char *name)
+objc_property_t property_getProperty(Property *proto, const char *name, BOOL isRequiredProperty, BOOL isInstanceProperty)
+通过property_getAttributes()函数可以获得属性的名字和@encode编码：
+const char *property_getAttributes(objc_property_t_property)
+综合起来，可以通过下面的代码得到一个类的所有属性。
+id LenderClass = objc_getClass("Lender");
+unsigned int outCount,i;
+objc_property_t*properties = class_copyPropertyList(LenderClass,&outCount);
+for(i=0;i<outCount;i++){
+  objc_property_t property = properties[i];
+  fprint(stdout,"%s %s\n",property_getName(property),property_getAttributes(property));
+  }
