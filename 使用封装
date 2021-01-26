@@ -1,0 +1,67 @@
+封装是面向对象的三大特征之一（另外两个是继承和多态），指的是将对象的状态信息隐藏在对象内部，不允许外部程序直接访问对象内部信息，而是通过该类所提供方法来实现对内部信息的操作和访问。
+下面通过使用合理的访问控制定义了一个Person类，这个类用于实现良好的封装。
+//Person.h
+#import<Foundation/Foundation.h>
+@interface Person: NOSbject
+{
+  //使用@private限制成员变量
+  @private 
+  NSString*_name;
+  int_age;
+}
+//提供方法来操作name Field
+-（void）setName：（NSString*）name；
+//提供方法来设置age成员变量
+-（void）setAge：（int）age；
+//提供方法来获取_age成员变量的值
+-（int）age；
+@end
+//上面的Person类接口部分定义类_name\_age两个成员变量，这两个成员变量位于@private之后，这表明这两个成员变量都只能在当前类中访问。
+@private、@package、@protected和@public这4个访问权限控制符相当于开关，从它们出现的位置开始，到下一个权限控制符或右花括号之间的成员变量，都受该访问限制控制符控制。
+例如，该程序中定义的_name、_age两个成员变量都位于@private与"}"之间，因此它们都只能在当前的类中被访问。
+然后，为_name、_age分别提供类setter、getter方法来设置成员变量值，获取成员变量值。
+Person类的实现部分如下（Person.m）：
+#import"Person.h"
+@implementation Person
+//提供方法来设置_name成员变量
+-(void)setName:(NSString*)name
+{
+  //执行合理性检验，要求用户名必须在2～6之间
+  if([name length]>6||[name length]<2
+  {
+    NSLog(@"您设置的人名不符合要求");
+    return;
+  }
+  else
+  {
+    _name = name;
+  }
+ }
+ //提供方法来获取_name成员变量的值
+ -(void)setAge:(int)age
+ {
+  if(_age != age)
+  {
+    //执行合理性检验，要求用户年龄必须在0~100之间
+    if(age>100||age<0)
+    {
+      NSLog(@"您设置的年龄不合法");
+      return;
+    }
+    else
+    {
+      _age = age;
+    }
+  }
+}
+//提供方法来获取_age成员变量的值
+-(int)age
+{
+  return_age;
+}
+@end
+//定义类上面的Personnel类之后，该类的_name、_age两个成员变量只能在Person类内才可以操作和访问，在Person类之外只能通过个字对象的setter和getter方法来操作和访问。
+oc中成员变量setter和getter有非常重要的意义
+}在
+}
+}
