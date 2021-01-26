@@ -1,0 +1,8 @@
+Strong标明属性同目标对象是强（所属）关系
+Weak标明属性同目标对象是弱（没有所属）关系。如果目标对象呗取消了，那么属性值会自动设为nil（现在用assign代替）
+copy标明在分配对象时会进行复制，并向原先的对象发送一个release消息。复制对象是通过调用copy方法实现的。这个特性只有在属性是一个对象时有效，并且这个对象要实现NSCopying协议。
+assign标明setter方法使用简单的内存分配。这个特性为默认特性，一般对数值型，如NSInteger和CGRect使用这个特性。
+retain标明需要在分配的对象上调用retain方法，并向原先的对象发送一个release消息。（现在用关键字_attribute_来标明使用一个核心功能的属性可以像使用一个objc对象一样进行内存管理：
+@property（retain）
+_ _attribute_ _((NSObject))
+CFDictionartRef my Dictionary;
