@@ -1,0 +1,18 @@
+示例：下面的代码演示了在子类中将一个readonly属性重新定义为可读写。首先定义一个类MyInteger并使用一个readonly属性value：
+@interface MyInteger： NSObject
+@property（readonly）NSInteger value：
+@property（readonly）NSInteger value；
+@end
+@implementation MyInteger
+@synthesize value；
+@end
+下面可以通过如下代码实现一个子类MyMutableInteger，并且将属性value定义为可读写：
+@interface MyMutableInteger：MyInteger
+@property（readwrite）NSInteger value；
+@end
+@implementation MyMutableInteger
+@dynamic value；
+-（void）setValue：（NSInteger）newX{
+  value = newX;
+}
+@end
