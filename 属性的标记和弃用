@@ -1,0 +1,7 @@
+属性支持全部C风格的修饰符。属性可以被弃用或支持_attribute__格式的标记
+@property CGFloat x
+AVALILABLE_MAC_OS_X_VERSION_10_1_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_4;
+@property CGFloat y_attribute_((...));
+如果想要标明一个属性时一个输出项，可以使用IBOutlet标识符：
+@property（nonatomic，weak）IBOutlet NSButton *myButton；
+IBOutlet不是一个特性，但是属于特性列表的一部分。
