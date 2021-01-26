@@ -1,0 +1,8 @@
+可以使用nonatomic特性来标明一个访存方法为非原子方法（没有关键字用于标明原子方法，默认就是原子的）
+属性在默认情况下具有原子性，所以由编译器生成的访存方法提供了健全的在多线程的环境中访问属性的功能，对getter方法的返回值或通过setter方法设置的值进行检索与设置可以完全不受其他线程执行的影响。
+如果指明strong、copy或retain，并且没有指明nonatomic，那么在一个引用计数的环境中，生成的getter方法会对返回值进行锁定、恢复、自动释放，实现方法类似于下面的代码：
+[_internal lock];//使用对象级锁进行锁定
+id result = [[value retain]autorelease];
+[_internal unlock];
+return result;
+如果指明nonatomic，那么生成的访问方法就直接返回属性值。
