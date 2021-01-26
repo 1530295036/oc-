@@ -1,0 +1,23 @@
+可以在子类中对属性进行重定义，但是必须在子类中重新定义属性所具有的特性（除了readonly和readwrite）。
+这些同样适用于在分类和协议中声明的属性——分类或协议中的属性被重定义时同样需要重复定义它们的特性。
+如果在一个类中声明了一个readonly属性，可以在这个类的扩展中重新把这个属性声明为readwrite，这也同样适用于协议或子类。
+在这种情况下，实际上属性在@synthesize语句生成setter方法之前被重新声明的。
+这种可以把readonly属性重新声明为read/write的能力为实现提供了两种模型：
+一个可变类是不可变类*（例如，NSString、NSArry和NSDictionary）的子类。
+一个类使用只读的属性作为公共API，但是在类的内部实现中定义为readwrite的私有属性。
+示例：
+//公共头文件
+@interface MyObject： NSObject
+@property（readonly， copy）NSString *language；
+@end
+//私自实现文件
+@interface MyObject（）
+@property（readwrite， copy）NSString *language；
+@end
+@implementation MyObject
+@synthesize language；
+@end
+
+提示：
+可变类：引用一个类的方法可以改变这个类的内容。
+不可变类：引用一个方法不会改变这个类的内容。
