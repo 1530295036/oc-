@@ -1,0 +1,45 @@
+为每个成员变量都编写setter、getter方法是比较麻烦的。从oc2版本开始，支持自动合成setter方法和getter方法。
+第一步，在类接口部分使用@property指令定义属性。使用@property定义属性时无需放在类接口部分的花括号中，而是直接放在@interface和@end之间定义。
+@property指示符放在属性定义的最前面。
+第二步，在类实现的部分使用@synthesize指令声明该属性即可。
+接口代码（User.h)
+#import<Foundation/Foudation.h>
+@interface User: NSObject
+//使用@property定义3个property
+@property(nonatomic)NSString* name;
+@property NSString* pass;
+@property MSDate* birth;
+@end
+实现代码（User.m)
+@import"User.h)
+@implementation User
+//为3个property合成setter和getter方法
+//指定name property底层对应的成员变量名为_name
+@synthesize_name = _name;
+@synthesize pass;
+@synthesize birth;
+//实现自定义的setName： 方法。添加自己的逻辑控制
+-(void)setName: (NSString*)name
+{
+  self->_name = [NSString stringWithFormat:@"+++%@",name];
+}
+@end
+上面的代码使用@synthesize合成类3组setter和getter方法，为name属性合成setter、getter方法时指定类该属性底层的成员变量名为_name。
+然后自定义steName： 方法，在该方法中实现了自定义控制：当程序调用setName：方法进行设置时，系统对name成员变量所赋的值会添加“+++”前缀。
+最后，使用如下程序来测试该User类（UserTest.m)
+#import"User.h"
+int main(int argc,char*arhv[])
+{
+  @autoreleasepool
+  {
+    //创建User对象
+    User* user = [[User alloc]init];
+    //调用setter方法修改user成员变量的值
+    [user setName:@"admin"];
+    [user setPass:@"1234"];
+    [user setBirth:[NSDate date]];
+    //访问user成员变量的值
+    NSLog(@" 管理员账号为:%@, 密码为:%@,生日为：%@"，[user name],[user pass],[user birth]);
+  }
+}
+从该代码中可以看出，当程序通过@property、@synthesize合成setter、getter方法之后，程序即可通过setter、getter方法设置和访问成员变量的值。
