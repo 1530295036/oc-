@@ -1,0 +1,26 @@
+某个类中包含了一个名为_abc的成员变量，则其他对应的setter和getter方法名应为setAbc和abc（setter方法名为成员变量名的首字母大写，并在前面分别增加set动词，getter方法名为成员变量名 去掉_）
+如果一个oc类的每个成员变量都被使用@private限制，并为每个成员变量都提供了setter和getter方法，那么这个类就是一个符合规范的类。
+下面的程序(PersonTest.m)在mian()函数中创建一个Person对象，并尝试操作和访问该对象的_age和_name两个成员。
+#import"Person.h"
+int main(int argc,char *argv[])
+{
+@autoreleasepool{
+  Person *p = [[Person alloc]init];
+  //因为age成员变量以及被隐藏，所以下面的语句将出现编译错误
+  //p->_age = 1000;
+  //下面语句编译时不会出现错误，但运行时将提示输入的age成员变量不合法
+  //程序不会修改p的age成员变量
+  [p setAge:1000];
+  //访问p的age成员变量也必须通过其对应的getter方法
+  //因为上面从未成功设置p的age成员变量，故此处输出0
+  NSLog（@"未能设置age成员变量时:%d",[p,age]);
+  //成功修改p的age成员变量
+  [p setAge:30];
+  //因为上面成功设置了p的age成员变量，故此处输出：30
+  NSLog（@“成功设置age成员变量后：%d:,[p age]);
+  //不能直接操作p的成员变量，只能通过其对应的setter方法
+  //因为“李刚”字符串长度满足2～6，所以可以设置成功
+  [p setName:@"李刚"];
+  NSLog(@"成功设置name成员变量后：%@",[p name]);
+  }
+}
