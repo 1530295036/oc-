@@ -1,0 +1,32 @@
+oc允许简化的点语法访问属性和相对属性复制。
+如下面的程序定义类Card类，该类代表扑克牌，Card类的接口部分代码如下（Card.m):
+#import<Foundation/Foundation.h>
+@interface Card: NSObject
+//使用@property定义两个property
+@property(nonatomic, copy)NSString* flower;
+@property(nonatomic, copy)NSString* value;
+@end
+实现部分代码（Card.m):
+#import"Card.h"
+@implementation Card
+@synthseize flower;
+@synthesize value;
+@end
+该类包括flower（花色）和value（牌面值）两个属性，类实现部分则通过@synthesize这个两个属性合成setter、getter方法。然后，程序即可通过点语法来访问属性，
+通过点语法访问属性更加简洁。（CardTest.m)
+#import"Card.h"
+int main(int argc,char* argv[])
+{
+  card.flower = [[Card alloc]init];
+  //通过点语法对属性赋值
+  card.flower = @"♠️";
+  card.value = @"A";
+  //通过点语法访问属性值
+  NSLog(@"我的扑克牌为%@%@",card.flower,card.value);
+  }
+}
+点语法是一种非常简单点用法，但点语法只是一种简化写法，其本质依然是调用getter和setter方法。
+当程序调用点语法获取该对象的属性值时，本质上就是返回对象的getter方法的返回值。
+因此，只要该对象有getter方法（无论该对象是否存在相应的成员变量），程序就可以通过点语法来获取属性值。
+当程序调用点语法设置对象的属性值时，本质上就是返回该对象的setter方法进行设置。
+因此，只要该对象有setter方法（无论该对象是否存在相应的成员变量），程序就可以通过点语法来设置对象的属性值。
