@@ -1,0 +1,37 @@
+oc提供4个访问控制符，分别代表了4个访问控制级别
+@private：将受该访问控制符限制的成员变量限制在当前类内部，与在类实现部分定义的成员变量的作用域类似
+@public：彻底暴露受他控制的成员变量。
+@propertied：让那些受它控制的成员变量不仅可以当前类中访问，也可以在其子类中访问
+@package：让那些受他控制的成员变量不仅可以在当前类中访问，也可以在相同映像的其他程序中访问
+
+提示：同一映像，就是编译后生成的同一个框架或同一个执行文件。例如，想开发一个基础框架，如果使用@private限制某个成员变量，则限制的太严格了。
+考虑该框架中其他类、其他函数可能也需要直接访问该成员变量，此时就可以考虑使用@package来限制该成员变量。
+当编译器最后把@private限制的成员变量所在的类、其他类和函数编译成一个框架哭之后，那么这些类、函数都在同一个映像中，此时这些类、函数都可以自由访问这个@package限制的成员变量。但其他程序引用这个框架哭是，由于其他程序只是依赖这个框架哭，其他程序与该框架库就不在同一个映像中，因此，其他程序无法访问这个@package限制的成员变量。
+示例：下面的程序定义类一个apple类，该类定义类一个@package限制的_weight成员变量。接口代码如下（Apple.h)
+#import<Foundation/Foundation.h>
+@interface Apple: NSObject
+{
+  //使用@package限制成员变量
+  @package
+  double_weight;
+}
+@end
+在上面的程序中，_weight成员变量被@package限制，因此它可以被痛一映像函数自由访问，因此，类实现部分非常简单（Apple.m）
+#import"Apple.h"
+@implementation Apple
+@end
+然后，定义一个main()函数，该main（）函数直接访问Apple对象的_weight成员变量，程序代码如下（AppleTest.m):
+#import"Apple.h"
+int main(int argc,char argv[])
+{
+  @autoreleasepool{
+    Apple* apple = [[Apple alloc]init];
+    //下面的程序直接访问@package限制的成员变量
+    apple->_weight = 30.4;
+    NSLog(@"apple的重量为:%g",apple->_weight);
+    }
+}
+使用如下命令编译上面的程序：
+clang-fobjc-arc-framework Foundation Apple.m AppleTest.m
+上面的命令会把Apple.m\AppleTest.m文件编译生成一个可执行文件，由于Apple类和main()函数可以自由访问Apple类的_weight成员变量。
+虽然@property属于部分暴露的访问变量控制符，但@property限制的成员变量不允许同一映像中的其他类、函数访问。因此，上面程序中的_weight成员变量如果使用@property限制，将会出现错误。
