@@ -1,0 +1,41 @@
+assign：指定对属性只是进行简单的赋值，不更改对所赋的值的引用计数。
+atomic（nonatomic）：指定合成的存取方法是否为原子操作。如果使用atomic，那么合成的存、取方法都是线程安全的。
+copy：当调用setter方法对成员进行变量赋值时，会将该副本指定自定义方法名。
+readonly、readwrite：readonly指示系统只合成getter方法，不再合成setter方法。readwrite是默认值，指示系统需要合成setter、getter方法。
+retain：当把某个对象赋值给该属性时，该属性原来所引用的对象的引用计数减1，被赋值对象的引用计数加1.
+strong、weak：strong指示符指定该属性被赋值对象持有强引用，而weak指示符指定该属性对被赋值对象持有弱引用。
+强引用指向被赋值对象，那么该对象就不会自动回收，弱引用指向被指向对象，该对象也可能被回收
+unsafe_unretain:与weak指示符基本相似，不同的是，当unsafe_unretained指针所引用的对象被回收后，该指针不会被赋值为nil，因此这可能导致程序崩溃。一般来说，使用这个不如使用weak指示符。
+下面的程序定义了一个book类，该类中定义类一个NSString类型的name属性，NSString类有一个可变子类NSMutableString。
+接口代码（Book.h):
+#import<Foundation/Foundation.h>
+@interface Book: NSObject
+//使用@property定义一个property
+@property(nonatomic)NSString* name;
+@end
+name是NSString类型，而NSString有一个NSMutableString对象赋值给Book的那么属性之后，由于定义name时并未使用copy指示符，NSMutableString对象可能被修改过，因此
+NSMutableString对象的修改将会影响Bool的name属性值。下面是Book类的测试代码（BookTest.m):
+#import"Book.h"
+int main(int argc,char*argv[])
+{
+  @autoreleasepool{
+    Book* book = [[Book alloc]init];
+    NSMultableString* str = [[NSMutableString stringWithString:@"IOS"];
+    //对book的name属性赋值
+    [book setName:str];
+    //输出book的那么属性
+    NSLog(@"bood的name为"%@",[book name]);
+    //修改str字符串
+    [str appendString:@"是不错的开发工具"];
+    //在下面的代码将会看到book的name属性也会被修改
+    NSLog（@“book的name为%@",[book name]);
+  }
+}
+上面的程序一共输出两次book的name属性值，但由于book的name属性值和str指向同一个NSMutableString对象，因此当程序修改str指向的NSMutableString对象时，book的name属性值也会随之改变。
+编译、运行该程序
+book的name为IOS
+book的name为IOS是不错的开发工具
+
+如果对上面的程序进行修改，将定义name属性的一行增加copy指示符，修改为如下形式：
+@property（nonatomic， copy）NSString* name；
+这样，当程序执行“[book setName: str];"时，对象会复制一个副本，再将副本作为setName： 的参数值，这样就可以实现当程序通过str修改底层NSMutableString对象时，Book的name属性值不会随之改变
