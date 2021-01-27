@@ -1,0 +1,18 @@
+一个方法定义包含了方法类型，返回类型，一个或多个关键词，参数类型和参数名。
+oc中一个类的方法有两种类型：实例方法和类方法。
+实例方法：前面用“-”标明
+类方法用“+”标明
+oc中，调用一个方法相对于传递一个消息，这里的消息指的是方法名和参数。所有消息的分派都是动态的，这体现了oc中的多态性。
+消息调用的方式是使用方括号。
+在下面的例子中，向myArray对象发送insertObject： atIndex： 这个消息。
+[my Array insertObject: anObjatIndex: 0];
+[[myAppObject getArray]insertObject: [myAppObject getArray]atIndex: 0];
+ 前面的例子都是把消息传递给实例变量，其实也可以把消息传递给类本身，这时用类方法来替代实例方法。可以把类想象成静态C++类（当然，完全不相同）。
+ 类方法的定义与实例方法的定义只有一点不同，那就是用加号（+）代替减号（-）。
+ 下面的代码就是使用一个类方法：
+ NSMutableArray* myArray = nil；
+ myArray = [NSMutableArray arrayWithCapacity: 0];
+ 类方法与实例方法的区别：
+ 类方法是只有类对象可以使用的方法
+ 实例方法是类的实例可以使用的方法
+ 
