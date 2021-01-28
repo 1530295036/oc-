@@ -1,0 +1,41 @@
+//如果需要在子类方法中调用父类被覆盖的实例方法，可使用super关键字调用父类被覆盖的实例方法，为上面ostrich添加一个方法，在这个方法中调用bird被覆盖的fly方法。
+//ostrich.m
+#import<Foundation/Foundation.h>
+#import"ostrich.h"
+@implementation ostrich
+//重写父类的fly方法
+-(void)fly
+{
+  NSLog(@"i'm only running");
+}
+-(void)callOverridedMethod
+{
+  //在子类方法中通过super显示调用父类被覆盖的实例方法
+  [super fly];
+}
+@end
+通过callOverridedMethod方法的帮助，就可以让ostrich对象既可以调用自己重写的方法，也可以调用bird类中被覆盖的fly方法
+super是oc提供的一个关键字，用于限定该对象调用它从父类继承到的属性或方法。
+正如self不能出现在类方法中一样，super也不能出现在类方法中。
+类方法的调用者只能是类本身，而不是对象，因而super关键字也就失去了意义。
+当子类继承父类时，子类可以获得父类中定义的成员变量，因此，子类接口部分不允许定义与父类接口部分重名的成员变量。
+//Base.h
+#import<Foundation/Foundation.h>
+@interface Base: NSObject
+{
+  @private
+  int_a;
+}
+@end
+//子类接口Subclass.h
+#import<Foundation/Foundation.h>
+#import"Base.h"
+@interface Subclass: Base
+{
+  int_a;
+}
+@end
+//从上面代码可以看出，虽然Base中定义的成员使用了@private限制，但是子类接口部分依然不能定义与之重名的成员变量。如果编译上面的程序，就会提示错误
+//因此，无论父类接口部分的成员变量使用任何访问控制符限制，子类接口部分定义的成员变量都不允许与父类接口部分定义的成员变量重名。
+//但是，在类实现部分定义的成员变量将被限制在该类的内部，因此，父类在类实现部分定义的成员变量对子类没有任何影响。无论是接口部分还是实现部分定义的成员变量，子类都完全可以与父类实现部分定义的成员变量同名
+//父类接口和子类实现部分的成员变量名可以相同。
