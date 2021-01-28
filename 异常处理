@@ -1,0 +1,38 @@
+异常处理是管理非典型事件（例如未被识别的消息）的过程，此过程将会中断正常的程序执行。
+如果没有错误处理，遇到非典型事件时，程序可能立刻抛出（或者引发）异常，然后结束允许
+
+oc提供类对异常处理和线程同步的支持
+
+启用异常处理
+结合使用NSException、NSError和用户类，可以在代码中自由地使用错误处理。
+@try：将可能抛出异常的代码封起来
+@catch：包含针对@try抛出的异常的处理逻辑。可以使用多个@catch{}块捕获不同类型的异常
+@throw：引发一个异常。
+@finally：不管异常是否真的抛出，finally总是要执行
+exception（异常）实际是一个oc对象的指针，可以使用NSException类，但并不局限于此。
+
+捕捉不同类型的异常
+为捕捉@try{}块中的异常，最好的方法是在下面用一个或多个@catch{}块，会列出最主要的异常信息处理模式。
+示例：
+@try{
+  ……
+}
+@catch(CustomException*ce{
+  ……
+}
+@catch(id ue){
+  ……
+}
+@finally{
+  ……
+}
+捕捉最具体的异常类型
+捕捉一般的异常类型
+命令必须始终执行，不管异常是否被抛出
+
+抛出异常
+要抛出异常，必须使用合适的信息实例话一个对象，这些信息包括异常的名字，抛出异常的原因等。
+NSException*exception = [NSException exceptionWithName:
+@"HotTeaException"reason:@"The tea is too hot"userInfo: nil];
+@throw exception;
+在@catch中，可以是一样@throw指令再次抛出一个异常，而不用呢指定参数。这样会让代码更易读。
