@@ -1,0 +1,47 @@
+当子类扩展父类时，子类可以继承到父类的如下内容：
+全部成员变量。
+全部方法（包括初始化）。
+下面的代码定义一个Fruit类，演示了子类继承父类的特点。
+//接口文件（Fruit.h):
+#import<Foundation/Foundation.h>
+@interface Fruit: NSObject
+@property(nonatomic,assign)double weight;
+-(void)info;
+@end
+//下面是fruit的实现部分（fruit.m)
+#import"Fruit.h"
+@implementation Fruit
+@synthesize weight;
+-(void)info
+{
+  NSLog(@"我是一个水果！种%gg!",weight);
+}
+@end
+//Apple.h
+#import<Foundation/Foundation.h>
+#import"Fruit.h"
+@interface Apple: Fruit
+@end
+//Apple.m
+@implementation Apple
+@end
+//AppleTest.m
+#import"Apple.h"
+int main(int argc,char*argv[])
+{
+  @autorelesepool{
+    //创建一个Apple的对象
+    Apple* a = [[Apple alloc]init];
+    //Apple对象本身没有weight属性
+    //因为Apple的父类有weight属性，也可以访问Apple对象的weight属性
+    a.weight = 56;
+    //调用Apple对象的info方法
+    [a info];
+  }
+}
+提示：oc中摒弃了C++中难以理解的多继承特征，即每个类最多只有一个直接父类。实际上，定义任何oc类时都需要指定一个直接父类，默认情况下，会让自己的oc类继承NSObject类。
+因此，NSObject时所有类的父类，要么时直接父类，要么是其间接父类。
+因此，所有的o对象都可以调用NSObject类所定义的实例方法。
+从子类角度来看，子类扩展（extension）了父类
+从父类看，父类派生（derive）出子类。
+也就是说，派生和扩展所描述的是同一个动作，只是观察的角度不同。
