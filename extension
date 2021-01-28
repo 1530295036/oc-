@@ -1,0 +1,11 @@
+类的extension就像是匿名的Category，不同的是扩展中声明的方法必须在相关类的@implementation中实现。
+在Clange/LLVM2.0编译其中，还可以在Extension中声明属性和实例变量
+@interface MyClass: NSObject
+@property(readonly)float value;
+@end
+//私有扩展，通常隐藏于主要实现文件中
+@interface MyClass()
+@property(readwrite)float value;
+end
+注意：Extension和Category的不同。如以上代码第二段，@interface后面的括号不要指定名字。
+Extension还经常用于另一种情况：一个类线公开声明一个API，然后类通过Extension在定义一些私有的方法
