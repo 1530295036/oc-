@@ -1,0 +1,45 @@
+大部分时候，子类总是以父类为基础，额外增加新的方法，但是有一种情况例外：子类需要重写父类的方法
+//bird.h
+#import<Foundation/Foundation.h>
+@interface Bird: NSObject
+-(void)fly;
+@end
+//bird.m
+import<Foundation/Foundation.h>
+#import"bird.h"
+@implemenation bird
+//bird类的fly方法
+-(void)fly
+{
+  NSLog(@"我在飞");
+}
+@end
+//ostrich类，扩展类bird类，重写了fly方法
+//ostrich.h
+#import<Foundation/Foundation.h>
+#import"birth.h"
+@interface ostrich: bird
+-(void)callOverridedMedthod;
+@end
+//从上面的接口部分可以看出，当子类要重写父类方法时，子类接口部分并不需要重新声明要重写的方法，只要在类实现部分重写该方法即可。
+//ostrich.m
+#import<Foundation/Foundation.h>
+import"ostrich.h"
+@implementation ostrich
+-(void)fly
+{
+  NSLog(@"我只能跑");
+}
+@end
+//测试ostrichTest.m
+import"ostrich.h"
+int main{int argc,char*argv[])
+{
+  @autoreleasepool{
+  // 创建ostrich对象
+  ostrich* os = [[ostrich alloc]init];
+  //执行ostrich对象的fly方法
+  [os fly];
+  [os callOverridedMethod];
+  }
+}
