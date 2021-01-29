@@ -1,0 +1,36 @@
+NSObject根类和它采纳的NSOject协议及其他根类协议一起，为所有不作为代理对象的Cocoa对象指定类如下接口和行为特征。
+1.分配、初始化和复制
+NSObject类中的一些方法（包括一些来自协议的方法）用于对象的创建、初始化和复制。
+alloc和allocWithZone：方法用于从某内存区域中分配一个对象内存，并使对象指向其运行时的类定义。
+int方法是对像初始化原型，负责将对象的实例变量设置为一个已知的初始化状态。
+initialize和load是两个类方法，它们让对象有机会对自身进行初始化。
+new是一个将简单的内存分配和初始化结合起来的便利方法。
+copy和copyWithZone：方法用于复制并实现由NSCopying协议定义的方法的类的实例。
+希望支持可变对象复制的类需要实现mutableCopy和mutableCopyingWithZone（由NSMutableCopying协议定义）方法
+
+2.对象的保持和清理
+下面的方法对面向对象程序的内存管理特别重要。
+retain方法增加对象的保持次数
+release方法减少对象的保持次数
+autorelease方法也是减少对象的保持次数，但是采用推迟的方式
+retainCount方法返回对当前的保持次数
+dealloc方法由需要释放对象的实例变量以及释放动态分配的内存的类实现。
+
+3.内省和比较
+NSObject由很多方法可以查询对象运行时的信息。这些内省方法有助于找出对象在类层次中的位置，确定对象时否特定的方法，以及测试对象是否遵循某种协议。这些方法中的一部分仅实现为类方法
+superclass和class方法（实现为类和实例的方法）分别以Class对象的形式返回接受者的父类和类。
+通过isKindOfClass和isMemberOfClass：方法确定对象属于哪个类。后者用于测试接受者是否为指定类的实例。
+isSubclassOfClass：类方法则用于测试类的继承性。
+respondsToSelector：方法用于测试接受者是否实现由选择器参数标示的方法。
+instanceRespondToSelector：类方法则用于测试给定类的实例时否实现指定的方法。
+
+4.对象的编码和解码
+下面的方法于对象的编码和解码（作为归档过程的一部分）有关：
+encodeWithCoder：和initWithCoder： 是NSCoding协议仅有的方法。前者使对象可以对其实例变量进行编码，后者则使对象可以根据解码过的实例变量对自身进行初始化。
+NSObject类中声明了一些与对象编码有关的方法：classForCoder： 、replacementObjectForCoder： 、和awakeAfterUsingCoder： 。
+
+5.消息的转发
+forwardInvocation： 和相关的方法允许一个对象将消息转发给另一个对象。
+
+6.消息的派发
+以performSelector……开头的一组方法使用户可以在指定的延迟后派发消息，以及将消息从辅助线程派发（同步或异步）到主线程。
