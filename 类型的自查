@@ -1,0 +1,6 @@
+实例运行时可以显示出它们的类型。在NSObject类中定义类一个isMemberOfClass：方法来校验接受者是否是一个特定的类型：
+if（[anObject isMemberOfClass:someClass])
+NSObject中还定义了另一个方法isKindOfClass: 来进行更宽泛的检测，以检测接收者是否继承自某一个特定的类（是否在某个类的继承体关系中）：
+if([anObject isKindOfClass:someClass])
+方法返回YES的类就是可以把接受者静态指定的类（一系列继承关系中的类）。
+类型的自查并不受限于指定的类型信息。
