@@ -1,0 +1,34 @@
+如果一个对象收到一条无法处理的消息，那么运行时系统会抛出错误前向该对象发送一条forwardInvocation：消息，该消息的唯一参数时一个NSInvocation类型的对象，该对象封装了原始的消息和消息的参数。
+可以实现forwardInvocation：方法来对不能处理的消息进行一些默认的处理，也可以通过某种其他方法来避免错误被抛出。
+如forwardInvocation：的名字所示，它通常用于将消息转发给其他的对象。
+关于消息转发的作用，可以考虑这样的情景：假设需要设计一个能够响应negotiate消息的对象，并且能够包括其他类型的对象对消息的响应。通过在negotiate方法的实现中将negotiate消息转发给其他对象。
+更进一步，假设对象和另一个类的对象对negotiate的消息的响应完全一致。一种可能的方式就是让类继承其他类的方法实现。
+然而，有时这种方式不可行，因为类和其他类可能需要在不同的继承体系中响应negotiate消息。
+虽然一个类无法继承其他类的negotiate方法，仍然可以提供一个方法实现。
+这个方法实现只是简单的将negotiate消息转发给其他类的对象，就好像从其他类“借”来的一样，如下：
+-negotiate
+{
+  if([someOtherObject respondsTo:@selector(negotiate)])
+    return[someOtherObject negotiate];
+  return self;
+}
+这种方式必须为每一种消息提供方法实现。不能处理未知的消息。
+所有需要转发的消息的合集也必须确定，然而，这个集合会随着运行时事件的发生，以及新方法或新类的定义而变化。
+forwardInvocation：消息为这个提供类一个更特别的、动态的解决方法：
+当一个对象由于没有相应的方法实现而无法响应某消息时，运行时系统将通过forwardInvocation：消息通知该对象。
+每个对象都从NSObject类中继承了forwardInvocation：方法。
+然而，NSObject中的方法实现只是简单的调用了doesNotRecognizeSelector： 。
+通过实现自己的forwardInvocation：方法，可以i在该方法实现中将消息转发给其他对象。
+要转发消息给其他对象，forwardInvocation：方法必须：决定将消息发给谁，并将消息和原来的参数一起转发出去。
+消息可以通过invokeWithTarger：方法来转发：
+-（void）forwardInvocation：(NSInvocation*)anInvocation
+{
+  if([someOtherObject respondsTo:[anInvocation selector]])
+    [anInvocation invokeWithTarget:someOtherObject];
+  else
+    [super forwardInvocation:anInvocation];
+}
+转发消息后的返回值将返回给原来的消息发送这。
+可以通过返回任何类型的返回值，包括id、结构体、浮点数等。
+forwardInvocation：方法就像一个不能识别的消息的分发中心，将这些消息转发给不同接收对象。只有在消息接收对象中无法正常响应消息时才会被调用。
+如果希望对象将negotiate消息转发给其他对象，那么对象中不能有negotiate方法，否则forwardInvocation：将不可能被调用。
