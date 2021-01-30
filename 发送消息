@@ -1,0 +1,18 @@
+在oc中，可以向nil发送一个消息，只不过在运行时没有任何效果 。在Cocoa中有几个范例都得益于此。向nil发送消息所返回的值也是有效的。
+如果方法返回一个对象，那么向nil发送消息的返回值仍为nil。
+例如：
+Person*motherInLaw = [[Person spouse]mother];
+如果spouse对象是空，那么就将mother发送给nil并返回nil。
+如果方法返回指针类型，或是字节数不大于sizeof（void*），那么发送到nil的消息返回值为0（数值）。
+如果一个方法返回一个结构体，并且结构体是Mac OS X ABI Function Call Guide中定义的在寄存器中返回的，那么发送给nil的消息返回值为0，结构体中的每一个字段都为0.
+其他的结构体类型不会自动为0.
+如果方法返回上述类型以外的类型，发送给nil消息的返回值为为定义。
+id anObjectMaybeNil = nil;
+//这是有效的
+if([anObjectMaybeNil method methodThatReturnsADouble] == 0.0)
+{
+  //继续执行
+ }
+ 向nil发送消息的处理在Mac OSX10.5+版本中有点变化，在10.4及以前版本，向nil发送消息也是有效的，只要消息返回一个对象，或是指针类型，或无返回值（void），或者小于等于sizeof（void*）的整型，一个发送给nil的消息返回值也是nil
+ 如果发送到nil的消息返回上述以外的类型，那么返回值为为定义。
+ 因此在10.4版本以前不能依赖返回值为nil来判断返回值类型为对象、指针类型、无返回值（void）、或者小于等于sizeof（void*）的整型
