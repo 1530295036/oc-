@@ -1,0 +1,5 @@
+消息表达式可以嵌套。
+如下矩形的颜色被设置到另一个矩形：
+[myRectangle setPrimaryColor: [otherRect primaryColor]];
+oc 也规定了由点（.）操作符提供紧凑方便的语法来调用对象的方法。
+点操作符一般和属性声明一起使用
