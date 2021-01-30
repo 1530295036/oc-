@@ -1,0 +1,13 @@
+避免动态绑定的唯一办法就是取得方法的地址，并且直接调用函数一样调用它。
+当一个方法被连续调用很多次，而且希望节省每次调用方法都要发送消息的开销时，使用方法地址来调用
+利用methodForSelector： 方法，可以获得一个指向方法实现的指针，并且可以使用该指针直接调用方法实现。
+methodForSelector：返回的指针和赋值的变量类型必须完全一致，包括方法的参数类型和返回类型都在类型识别的考虑范围。
+用指针来调用setFilled：
+void（*setter）（id，SEL，BOOL）；
+int i；
+setter = (void(*)(id,SEL,BOOL))[target methodForSelector:@selector(setFilled:)];
+for(i = 0;i<1000,i++)
+setter(targetList[i],@selector(setFilled:),YES);
+方法指针的第一个参数时接收消息的对象（self），第二个参数时方法选标（_cmd)。这两个参数在方法中时隐藏参数，但在使用函数的形式来调用方法时必须显示的给出。
+使用methodForSelector：来避免动态绑定将减少大部分消息的开销，但是这只有在指定的消息被重复发送很多次时才有意义，例如上面的for循环。
+注意：methodForSelector： 是Cocoa运行时系统提供的功能，而不是oc语言本身的功能。
