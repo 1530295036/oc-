@@ -1,0 +1,15 @@
+objc_msgSend在找到方法对应的实现时将直接调用该方法实现，并将消息中所有的参数都传递给方法实现，同时，它还将传递两个隐藏的参数：
+接收消息的对象。
+方法选标。
+这些参数帮助方法实现获得了消息表达式的信息。它们被认为是“隐藏”的，因为它们并没有在定义方法的源代码中声明，而是在代码编译时是插入方法的实现中的。
+尽管这些参数没有被显示声明，在源代码中仍然可以引用它们（就像可以引用消息接收者对象的实例变量一样）。
+在方法中可以通过self来引用消息接收者对象，通过选标_cmd来引用方法本身。
+下面的代码中，_cmd指的是strange方法，self指的是到strange消息的对象。
+- strange
+{
+  id target = getTheReceiver();
+  SEL method = getTheMethod;
+  if(target == self||method == _cmd)
+    return nil;
+  return[target performSelector:method];
+}
