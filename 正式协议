@@ -1,0 +1,35 @@
+oc提供了一个正式的方法将一组方法（包括声明的属性）声明为一个协议。
+正式协议由语言本身和运行时支持。例如，编译器可以基于协议进行类型校验，并且对象可以在运行时自查它们是否遵守了一个协议。
+1.声明一个协议
+使用@protocol指令声明一个标准的协议：
+@protocol ProtocolName
+//方法声明
+@end
+与类名不同，协议名没有全局可见这个属性，只能存在于自己的命名空间。
+
+2.可选的协议方法
+协议方法可以用@optional关键字标记为可选。
+同@optional类似，还有一个@required关键字用来标记方法为必需。这样就可以用@optional和@required把协议分成需要的两部分。
+示例，如果没有使用这些关键字，那么默认使用@require
+@protocol Myprotocol
+-(void)requiredMethod;
+@optional
+-(void)anthorOptionalMethod;
+@required
+-(void)anotherRequiredMethod;
+@end
+注意：在Mac OS X 10.5中，协议不能声明可选的属性。这个限制在10.6后版本中取消了
+协议定义的是多个类共同的公共行为规范，因此，协议中所有的方法都是公开的访问权限。
+//output.h
+#import<Foundation/Foundation.h>
+//定义协议
+@protocol Output
+//定义协议的方法
+@optional
+-(void)output;//输出
+@required
+-(void)addDate:(NSString*)msg;//添加数据
+@end
+只要某个类能添加数据，并可以将数据输出，那么这个类就是一个输出设备，至于这个设备的实现细节，该协议并不关心。
+协议的继承完全支持多继承，即一个协议可以由多个直接的父类协议。子协议继承某个父协议，将会获得父协议中定义的所有方法。
+一个协议继承多个父协议时，多个父协议排在"<>"中间，多个协议口之间以英文逗号隔开
