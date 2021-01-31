@@ -1,0 +1,21 @@
+有时需要动态的提供一个方法的实现。例如，oc中属性（property）前的修饰符@dynamic。
+@dynamic propertyName；
+表示编译器须动态地生成该属性对应的方法。
+可以通过实现resolveInstanceMethod：和resolveClassMethod：来动态地实现给定选标的对象方法或类方法。
+实例1，oc方法可以认为是至少哟2个参数（self和_cmd）的c函数。可以通过class_addMethod方法将一个函数加入到类的方法中。
+void dynamicMethodIMP(id self,SEL,_cmd){
+  //实施
+}
+实例2，可以通过resolveInstanceMethod：将其作为类方法resolveThisMethodDynamically的实现：
+@implementation MyClass
++(BOOL)resolveInstanceMethod:(SEL)aSEL
+{
+  if(aSEL == @selector(resolveThisMethodDynamically)){
+    class_addMethod([self class],aSEL,(IMP)dynamicMethodIMP,"v@:");
+    return YES;
+    }
+  return[super resolveInstanceMethod:aSEL];
+}
+@end
+通常消息转发和动态方法解析是互不相干的。在进入消息转发机制之前，respondsToSelector：会被首先调用。可以在这两个方法中为传进来的选标提供一个IMP。
+如果实现了resolveInstanceMethod：方法但是仍然希望采用正常的消息转发机制进行，只需要返回NO就可以了。
