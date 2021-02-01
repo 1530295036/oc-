@@ -1,0 +1,11 @@
+很多时候，一个类的dealloc方法和init方法相呼应。
+初始化方法在对象分配后马上被调用，而dealloc在对象销毁之前被调用，初始化方法确保对象的实例变量被正确初始化，而dealloc方法确保该对象的实例变量被释放，并确保动态分配的内存被释放。
+同时，初始化方法和dealloc方法都必须调用各自的超类实现。
+在初始化方法中，先调用超类的指定初始化方法；在dealloc中，则在最后一步调用超类的dealloc实现。
+示例：
+-(void)dealloc{
+  [accountDictionary release];
+  if(mallocdChunk != NULL)
+    free(mallocdChunk);
+  [super dealloc];
+}
