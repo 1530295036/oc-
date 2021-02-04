@@ -1,0 +1,11 @@
+用法：
++(id)string?
++(id)stringWithString:nsstring
+-(id)initWithString:nsstring
+……
+
+示例：
+//字符串赋值
+NSString *str() = @"my name is kk";
+
+常用方法看表787页
